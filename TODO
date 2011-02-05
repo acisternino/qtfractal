@@ -1,0 +1,25 @@
+TODO list
+=========
+
+What follows is a generic list of the features I would like to evaluate 
+and possibily add to QtFractal.
+
+STRATEGY
+--------
+
+1. A lot more documentation and comments (using Doxygen)
+2. Move algorithms to a few dedicate classes
+3. Use threads to create the image
+4. Improve the GUI using a QMainWindow
+4. Add palettes and a simple algorithm to use them
+5. Add Flame Fractal algorithm
+6. Add CUDA support
+
+DETAILS
+-------
+
+* Improve handling of resize events on compositing WM's on Linux
+* Add command line options
+* Improve logging
+* Add a lot more details on how to build QtFractal on Linux and Windows
+* Find a suitable icon
