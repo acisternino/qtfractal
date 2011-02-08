@@ -15,6 +15,11 @@
 **  You should have received a copy of the GNU General Public License
 **  along with QtFractal.  If not, see <http://www.gnu.org/licenses/>.
 */
+/*!
+ *  \file fractalwidget.cpp
+ *  \brief Implementation of the FractalWidget class
+ *  \author Andrea Cisternino
+ */
 
 #include <QtGui>
 #include <QtDebug>
@@ -23,90 +28,34 @@
 
 //-------------------------------------------------------------------------
 //
-//  Constructors
+//  Lifecycle
 //
 
 FractalWidget::FractalWidget(QWidget *parent)
     : QWidget(parent)
-    , buffer(0)
 {
     setAttribute(Qt::WA_OpaquePaintEvent);
+
+    // QImage cannot be used by queued signals without being registered first
+    qRegisterMetaType<QImage>("QImage");
+
+    // inter-thread signal-slot connection: queued
+    connect(&thread, SIGNAL(renderedImage(QImage)), this, SLOT(updatePixmap(QImage)));
 }
 
 //-------------------------------------------------------------------------
 //
-//  void FractalWidget::renderMandelbrot()
+//    void updatePixmap(const QImage &image);
 //
 
-// TODO move to specialized renderer class
 void
-FractalWidget::renderMandelbrot()
+FractalWidget::updatePixmap(const QImage &image)
 {
-    buffer->fill(0);     // fill with black
+    qDebug() << "FractalWidget::updatePixmap()";
 
-    const double xstart = -2.2;
-    const double xend   =  0.8;
-    const double ystart = -1.2;
-    const double yend   =  1.2;
-    const int iter = 1000;
+    pixmap = QPixmap::fromImage(image);
 
-    int width = buffer->width();
-    int height = buffer->height();
-
-    // intervals corresponding to one screen pixel increment
-    double xstep = (xend - xstart) / width;
-    double ystep = (yend - ystart) / height;
-
-    // current position in imaginary plane
-    float x = xstart;
-    float y = ystart;
-
-    // foreach line
-    for (int l = 0; l < height; l++) {
-
-        QRgb *pixel = (QRgb *) buffer->scanLine(l);
-
-        // foreach pixel in line
-        for (int c = 0; c < width; c++) {
-
-            double z = 0;
-            double zi = 0;
-            bool inset = true;
-
-            double colour;
-
-            // main loop for evaluating the point
-            for (int k = 0; k < iter; k++) {
-
-                /* z^2 = (a + bi)(a + bi) = a^2 + 2abi - b^2 */
-                double newz = (z * z) - (zi * zi) + x;
-                double newzi = 2 * z * zi + y;
-
-                z = newz;
-                zi = newzi;
-
-                if (((z * z) + (zi * zi)) > 4) {
-                    inset = false;
-                    colour = k;
-                    break;
-                }
-            }
-
-            if (!inset) {
-                // paint pixel with simple grayscale palette
-                double y = colour / iter * 5000;
-                int chanVal = (y > 255) ? 254 : (int) y;    // clip value
-                pixel[c] = qRgb(chanVal, chanVal, chanVal);
-            }
-
-            x += xstep;
-        }
-
-        y += ystep;
-        x = xstart;
-    }
-
-    qDebug() << "Mandelbrot set generated";
+    update();           // triggers a paintEvent()
 }
 
 //-------------------------------------------------------------------------
@@ -117,14 +66,14 @@ FractalWidget::renderMandelbrot()
 void
 FractalWidget::keyReleaseEvent(QKeyEvent *event)
 {
-    qDebug() << "FractalWidget::keyReleaseEvent()";
-
-    if (event->key() == Qt::Key_Escape) {
-        qDebug() << "FractalWidget::keyReleaseEvent(): ESC pressed";
-        event->accept();
+    switch (event->key()) {
+    case Qt::Key_Escape:
+        qDebug() << "FractalWidget::keyReleaseEvent(): quitting application...";
         qApp->quit();
-   }
-   event->ignore();
+        break;
+    default:
+        QWidget::keyPressEvent(event);
+    }
 }
 
 //-------------------------------------------------------------------------
@@ -133,20 +82,20 @@ FractalWidget::keyReleaseEvent(QKeyEvent *event)
 //
 
 void
-FractalWidget::paintEvent(QPaintEvent *event)
+FractalWidget::paintEvent(QPaintEvent * /* event */)
 {
     qDebug() << "FractalWidget::paintEvent()";
 
-    // TODO use threads
-    renderMandelbrot();
+    QPainter p(this);       // we paint directly on this widget surface
+    p.fillRect(rect(), Qt::black);
 
-    QPainter p;
+    if (pixmap.isNull()) {
+        p.setPen(Qt::white);
+        p.drawText(rect(), Qt::AlignCenter, tr("Rendering initial image, please wait..."));
+        return;
+    }
 
-    // we paint on this widget surface
-    p.begin(this);
-    p.setCompositionMode(QPainter::CompositionMode_Source);
-    p.drawImage(QPoint(0, 0), *buffer);
-    p.end();
+    p.drawPixmap(0, 0, pixmap);
 }
 
 //-------------------------------------------------------------------------
@@ -159,8 +108,5 @@ FractalWidget::resizeEvent(QResizeEvent *event)
 {
     qDebug() << "FractalWidget::resizeEvent():" << event->size();
 
-    if (buffer != 0) {
-        delete buffer;
-    }
-    buffer = new QImage(event->size(), QImage::Format_ARGB32);
+    thread.render(event->size());
 }

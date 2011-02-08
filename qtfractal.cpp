@@ -41,8 +41,8 @@ main(int argc, char *argv[])
 
     // a QWidget without parent becomes a Window
     FractalWidget fw;
-    fw.resize(300, 300);
-    
+    fw.resize(400, 300);
+
     // this sends an initial resize and repaint events to the FractalWidget instance
     fw.show();
 

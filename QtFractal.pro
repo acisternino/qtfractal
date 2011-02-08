@@ -22,8 +22,10 @@ TARGET   = QtFractal
 TEMPLATE = app
 
 SOURCES += qtfractal.cpp \
-           fractalwidget.cpp
+           fractalwidget.cpp \
+           renderthread.cpp
 
-HEADERS += fractalwidget.h
+HEADERS += qtfractal.h \
+           fractalwidget.h \
+           renderthread.h
 
-# FORMS   += qtflame.ui

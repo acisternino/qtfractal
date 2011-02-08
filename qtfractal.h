@@ -25,7 +25,6 @@
 #define QTFRACTAL_H
 
 #define QTF_VERSION             001000
-#define QTF_VERSION_STR         "0.1"
+#define QTF_VERSION_STR         "0.2"
 
 #endif  // QTFRACTAL_H
-
