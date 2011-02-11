@@ -22,6 +22,7 @@
  */
 
 #include <QApplication>
+#include <QIcon>
 
 #include "fractalwidget.h"
 
@@ -37,10 +38,11 @@ main(int argc, char *argv[])
     app.setApplicationName("QtFractal");
     app.setOrganizationName("Craftware");
     app.setQuitOnLastWindowClosed(true);
-    // Q_INIT_RESOURCE(qtfractal);
+    Q_INIT_RESOURCE(qtfractal);
 
     // a QWidget without parent becomes a Window
     FractalWidget fw;
+    fw.setWindowIcon(QIcon(":/images/winicon.png"));
     fw.resize(400, 300);
 
     // this sends an initial resize and repaint events to the FractalWidget instance

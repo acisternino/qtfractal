@@ -29,3 +29,4 @@ HEADERS += qtfractal.h \
            fractalwidget.h \
            renderthread.h
 
+RESOURCES = qtfractal.qrc
