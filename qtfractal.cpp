@@ -23,17 +23,52 @@
 
 #include <QApplication>
 #include <QIcon>
+#include <QDebug>
+
+#ifdef Q_OS_WIN32
+#  define WIN32_LEAN_AND_MEAN       1
+#  include <windows.h>
+#endif
 
 #include "fractalwidget.h"
 
 // ---- Global variables --------------------------------------------------
+
+int cpuNum = 1;         // number of cpus in the system
+
+// ---- Support methods ---------------------------------------------------
+
+int
+detectCpuNumber()
+{
+    int np = 1;
+
+#ifdef Q_OS_LINUX
+    np = sysconf(_SC_NPROCESSORS_ONLN);
+    if (np == -1) {
+        exit(EXIT_FAILURE);         // value unavailable, scary!
+    } else if (np == 0) {
+        np = 1;
+    }
+#elif defined Q_OS_WIN32
+    SYSTEM_INFO sysinfo;
+    GetSystemInfo(&sysinfo);
+    np = sysinfo.dwNumberOfProcessors;
+#endif
+
+    return np;
+}
 
 // ---- Main --------------------------------------------------------------
 
 int
 main(int argc, char *argv[])
 {
-    // prepare the application object and load resources
+    // find number of CPU's in the system
+    cpuNum = detectCpuNumber();
+    qDebug() << "CPU's detected:" << cpuNum;
+
+    // prepare the Application object and load resources
     QApplication app(argc, argv);
     app.setApplicationName("QtFractal");
     app.setOrganizationName("Craftware");
@@ -50,4 +85,3 @@ main(int argc, char *argv[])
 
     return app.exec();
 }
-
