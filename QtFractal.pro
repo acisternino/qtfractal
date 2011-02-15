@@ -15,18 +15,21 @@
 #  You should have received a copy of the GNU General Public License
 #  along with QtFractal.  If not, see <http://www.gnu.org/licenses/>.
 
-QT     += core gui
 CONFIG += debug console
 
 TARGET   = QtFractal
 TEMPLATE = app
 
 SOURCES += qtfractal.cpp \
+           mainwindow.cpp \
            fractalwidget.cpp \
            renderthread.cpp
 
 HEADERS += qtfractal.h \
+           mainwindow.h \
            fractalwidget.h \
            renderthread.h
 
 RESOURCES = qtfractal.qrc
+
+FORMS = mainwindow.ui

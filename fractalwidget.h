@@ -70,11 +70,6 @@ protected:
     // ---- Event listeners -----------------------------------------------
 
     /*!
-     *  This is used to trap the ESC key and exit.
-     */
-    void keyReleaseEvent(QKeyEvent *event);
-
-    /*!
      *  \brief Received when the system thinks that the widget needs to be repainted.
      *
      *  This is the only place where the use of a QPainter is allowed and in

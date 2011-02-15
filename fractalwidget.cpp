@@ -43,9 +43,9 @@ FractalWidget::FractalWidget(QWidget *parent)
     connect(&thread, SIGNAL(renderedImage(QImage)), this, SLOT(updatePixmap(QImage)));
 }
 
-//-------------------------------------------------------------------------
+//--- SLOTS --------------------------------------------------------------
 //
-//    void updatePixmap(const QImage &image);
+//  void updatePixmap(const QImage &image);
 //
 
 void
@@ -58,25 +58,7 @@ FractalWidget::updatePixmap(const QImage &image)
     update();           // triggers a paintEvent()
 }
 
-//-------------------------------------------------------------------------
-//
-//  void FractalWidget::keyReleaseEvent(QKeyEvent *event)
-//
-
-void
-FractalWidget::keyReleaseEvent(QKeyEvent *event)
-{
-    switch (event->key()) {
-    case Qt::Key_Escape:
-        qDebug() << "FractalWidget::keyReleaseEvent(): quitting application...";
-        qApp->quit();
-        break;
-    default:
-        QWidget::keyPressEvent(event);
-    }
-}
-
-//-------------------------------------------------------------------------
+//--- EVENTS -------------------------------------------------------------
 //
 //  void FractalWidget::paintEvent(QPaintEvent *event)
 //
