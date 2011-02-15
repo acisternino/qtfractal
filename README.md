@@ -22,3 +22,9 @@ packages.
 For Windows you have to download the Windows SDK that comes equipped with
 the mingw32 free compiler. Please refer to the [Qt Nokia site](http://qt.nokia.com/downloads)
 for more information.
+
+Further Reading
+---------------
+
+Events
+http://doc.qt.nokia.com/qq/qq11-events.html
