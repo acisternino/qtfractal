@@ -9,7 +9,7 @@ STRATEGY
 
 1. A lot more documentation and comments (using Doxygen)
 2. Move algorithms to a few dedicate classes
-3. Use threads to create the image
+3. Use threads to create the image [DONE]
 4. Improve the GUI using a QMainWindow
 4. Add palettes and a simple algorithm to use them
 5. Add Flame Fractal algorithm
