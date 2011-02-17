@@ -26,9 +26,7 @@
 
 #include "mainwindow.h"
 
-//------------------------------------------------------------------------
-//
-//  Lifecycle
+//--- Lifecycle ----------------------------------------------------------
 //
 
 MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags)
@@ -36,24 +34,17 @@ MainWindow::MainWindow(QWidget *parent, Qt::WindowFlags flags)
 {
     setupUi(this);
 
+    // the FractalWidget responsible for fractals rendering
     fw.setParent(this);
     setCentralWidget(&fw);
 }
 
-//--- EVENTS -------------------------------------------------------------
-//
-//  void MainWindow::keyReleaseEvent(QKeyEvent *event)
+//--- SLOTS --------------------------------------------------------------
 //
 
 void
-MainWindow::keyReleaseEvent(QKeyEvent *event)
+MainWindow::on_actionQuit_triggered(bool /* checked */)
 {
-    switch (event->key()) {
-    case Qt::Key_Escape:
-        qDebug() << "MainWindow::keyReleaseEvent(): quitting application...";
-        qApp->quit();
-        break;
-    default:
-        QMainWindow::keyPressEvent(event);
-    }
+    qDebug() << "MainWindow::on_actionQuit_triggered(): quitting application...";
+    qApp->quit();
 }

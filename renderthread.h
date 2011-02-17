@@ -73,7 +73,7 @@ public:
      *
      *  Communicates with the continuosly running thread (the run() function)
      *  using shared variables.
-     * 
+     *
      *  \param[in] size the size of the image to render.
      */
     void render(QSize size);

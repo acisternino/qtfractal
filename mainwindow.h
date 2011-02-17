@@ -47,14 +47,11 @@ public:
      */
     MainWindow(QWidget *parent = 0, Qt::WindowFlags flags = 0);
 
-protected:
+    // ---- Slots ---------------------------------------------------------
 
-    // ---- Event listeners ----------------------------------------------
+private slots:
 
-    /*!
-     *  This is used to trap the ESC key and exit.
-     */
-    void keyReleaseEvent(QKeyEvent *event);
+    void on_actionQuit_triggered(bool checked);
 
 };
 

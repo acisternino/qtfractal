@@ -27,7 +27,7 @@
 
 #include "renderthread.h"       // class RenderThread
 
-// ---- Global constants -------------------------------------------------
+//--- Global constants ---------------------------------------------------
 
 const double xstart = -2.2;
 const double xend   =  0.8;
@@ -35,9 +35,7 @@ const double ystart = -1.2;
 const double yend   =  1.2;
 const int iter = 1000;
 
-//-------------------------------------------------------------------------
-//
-//  Lifecycle
+//--- Lifecycle ----------------------------------------------------------
 //
 
 RenderThread::RenderThread(QObject *parent)
@@ -57,7 +55,7 @@ RenderThread::~RenderThread()
     wait();                 // wait for threads to process abort command and terminate
 }
 
-//-------------------------------------------------------------------------
+//------------------------------------------------------------------------
 //
 //  void render(QSize resultSize)
 //
@@ -83,7 +81,7 @@ RenderThread::render(QSize size)
     // locker goes out of scope and automatically releases the mutex
 }
 
-//-------------------------------------------------------------------------
+//------------------------------------------------------------------------
 //
 //  void run()
 //
@@ -128,7 +126,7 @@ RenderThread::run()
     }
 }
 
-//-------------------------------------------------------------------------
+//------------------------------------------------------------------------
 //
 //  void mandelbrot(const QImage &image)
 //

@@ -26,9 +26,7 @@
 
 #include "fractalwidget.h"
 
-//-------------------------------------------------------------------------
-//
-//  Lifecycle
+//--- Lifecycle ----------------------------------------------------------
 //
 
 FractalWidget::FractalWidget(QWidget *parent)
@@ -45,8 +43,6 @@ FractalWidget::FractalWidget(QWidget *parent)
 
 //--- SLOTS --------------------------------------------------------------
 //
-//  void updatePixmap(const QImage &image);
-//
 
 void
 FractalWidget::updatePixmap(const QImage &image)
@@ -59,8 +55,6 @@ FractalWidget::updatePixmap(const QImage &image)
 }
 
 //--- EVENTS -------------------------------------------------------------
-//
-//  void FractalWidget::paintEvent(QPaintEvent *event)
 //
 
 void
@@ -79,11 +73,6 @@ FractalWidget::paintEvent(QPaintEvent * /* event */)
 
     p.drawPixmap(0, 0, pixmap);
 }
-
-//-------------------------------------------------------------------------
-//
-//  void FractalWidget::resizeEvent(QResizeEvent *event)
-//
 
 void
 FractalWidget::resizeEvent(QResizeEvent *event)
