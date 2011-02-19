@@ -41,6 +41,7 @@ class FractalWidget : public QWidget
 
     QPixmap pixmap;         //!< This QPixmap is used by the Painter to display the image
     RenderThread thread;    //!< Thread used to render the fractal asynchronously
+    bool scalePixmap;       //!< Flag that control paintEvent() behaviour
 
 public:
 
@@ -57,11 +58,10 @@ private slots:
 
     /*!
      *  \brief Invoked by the rendering thread when an image is ready.
+     *  \param[in] image the image containing the rendered fractal.
      *
      *  The connection between the thread's signal and this slot is a queued
      *  connection, i.e. asynchronous.
-     *
-     *  \param[in] image the image containing the rendered fractal.
      */
     void updatePixmap(const QImage &image);
 

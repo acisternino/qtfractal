@@ -31,6 +31,7 @@
 
 FractalWidget::FractalWidget(QWidget *parent)
     : QWidget(parent)
+    , scalePixmap(false)
 {
     setAttribute(Qt::WA_OpaquePaintEvent);
 
@@ -56,22 +57,44 @@ FractalWidget::updatePixmap(const QImage &image)
 
 //--- EVENTS -------------------------------------------------------------
 //
+//  void paintEvent(QPaintEvent *event)
+//
+//  After resizing the window this method is invoked twice instead than once.
+//  The first time immediately after the resize event (that also triggers
+//  a fractal redraw by the separate thread) and the second time when the
+//  updatePixmap() slot is invoked upon termination of the rendering thread.
+//  The idea is that the first time the soon to be obsolete image is scaled
+//  to fill the newly resized window.
 
 void
 FractalWidget::paintEvent(QPaintEvent * /* event */)
 {
     qDebug() << "FractalWidget::paintEvent()";
 
-    QPainter p(this);       // we paint directly on this widget surface
+    // we paint directly on this widget surface
+    // here the painter has the same coordinate system of the resized widget
+    QPainter p(this);
     p.fillRect(rect(), Qt::black);
 
     if (pixmap.isNull()) {
+        // first invocation
         p.setPen(Qt::white);
         p.drawText(rect(), Qt::AlignCenter, tr("Rendering initial image, please wait..."));
+        scalePixmap = false;
         return;
     }
 
+    p.save();
+    if (scalePixmap) {
+        // we don't scale the pixmap, we scale the painter
+        qreal scaleX = ((double) size().width()) / pixmap.size().width();
+        qreal scaleY = ((double) size().height()) / pixmap.size().height();
+        p.scale(scaleX, scaleY);
+    }
     p.drawPixmap(0, 0, pixmap);
+    p.restore();
+
+    scalePixmap = false;        // next paint blits the new image
 }
 
 void
@@ -79,5 +102,7 @@ FractalWidget::resizeEvent(QResizeEvent *event)
 {
     qDebug() << "FractalWidget::resizeEvent():" << event->size();
 
-    thread.render(event->size());
+    thread.render(event->size());   // start rendering thread and return immediately
+
+    scalePixmap = true;             // next paint scales image
 }
