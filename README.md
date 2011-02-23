@@ -37,5 +37,9 @@ equipped with the mingw32 free compiler. Please refer to the
 Further Reading
 ---------------
 
-_Qt Quarterly_: [Another Look at Events](http://doc.qt.nokia.com/qq/qq11-events.html)
-Qt documentation: [The Event System](http://doc.qt.nokia.com/latest/eventsandfilters.html)
+_Qt Quarterly_: [Another Look at Events](http://doc.qt.nokia.com/qq/qq11-events.html)  
+_Qt documentation_: [The Event System](http://doc.qt.nokia.com/latest/eventsandfilters.html)  
+
+_Qt Quarterly_: [Guarded Pointers](http://doc.qt.nokia.com/qq/qq14-guardedpointers.html)  
+_Qt Blogs_: [On Smart Pointers](http://labs.qt.nokia.com/2009/08/25/count-with-me-how-many-smart-pointer-classes-does-qt-have/)  
+_Qt Blogs_: [On QScopedPointer](http://labs.qt.nokia.com/2009/08/21/introducing-qscopedpointer/)  
